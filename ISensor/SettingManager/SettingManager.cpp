@@ -4,17 +4,17 @@
 
 SettingManager* SettingManager::pInstance = nullptr;
 
-SettingManager::SettingManager(const QString& csIniFile, QObject* parent)
-    : m_sIniFile{csIniFile}, QObject(parent)
+SettingManager::SettingManager(const QString& csIniFile)
+    : m_sIniFile{csIniFile}
 {
     m_pSettings = new QSettings(csIniFile, QSettings::IniFormat);
 }
 
-SettingManager* SettingManager::GetInstance(const QString& csIniFile, QObject* parent)
+SettingManager* SettingManager::GetInstance(const QString& csIniFile)
 {
     if(pInstance==nullptr)
     {
-        pInstance=new SettingManager(csIniFile, parent);
+        pInstance=new SettingManager(csIniFile);
     }
 
     return pInstance;

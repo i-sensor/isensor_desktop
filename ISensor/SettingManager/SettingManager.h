@@ -21,7 +21,7 @@ public: //Sigleton logic
     /*
      * GetInstance - returns pointer to single object of SettingManager
      */
-    static SettingManager *GetInstance(const QString& csIniFile = "", QObject* parent = nullptr);
+    static SettingManager *GetInstance(const QString& csIniFile = "");
 
     ~SettingManager();
 
@@ -57,7 +57,7 @@ public: //methods
     QPair<int, QVariant> ReadValue(const QString& csSection, const QString& csKey);
 
 private:
-    SettingManager(const QString& csIniFile = "", QObject* parent = nullptr);
+    SettingManager(const QString& csIniFile = "");
 
 private: //fields
     static SettingManager* pInstance; //Singleton
