@@ -10,5 +10,7 @@ class ISensor : public QWidget
 public:
     ISensor(QWidget *parent = nullptr);
     ~ISensor();
+
+private:
 };
 #endif // ISENSOR_H
