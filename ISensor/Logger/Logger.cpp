@@ -9,7 +9,7 @@ Logger::Logger(const QString& csLogFileName, const QString& csLogFilePath, const
     : m_sLogFileName{csLogFileName}, m_sLogFilePath(csLogFilePath), m_sOwnerName(csOwnerName), m_eLogLevel{ceDefaultLogLevel}
 {
     std::string sLogFile = csLogFilePath.toStdString() + csLogFileName.toStdString();
-    m_file.open(sLogFile, std::ios::out);
+    m_file.open(sLogFile, std::ios::app | std::ios::out);
 }
 
 Logger::~Logger()

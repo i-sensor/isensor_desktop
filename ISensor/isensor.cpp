@@ -3,6 +3,7 @@
 ISensor::ISensor(QWidget *parent)
     : QWidget(parent)
 {
+
 }
 
 ISensor::~ISensor()
