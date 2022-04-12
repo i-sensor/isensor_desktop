@@ -2,6 +2,9 @@
 #define NETWORK_MANAGER
 
 #include <QObject>
+#include <QUrl>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class NetworkManager : public QObject
 {
@@ -25,11 +28,24 @@ public: //Sigleton logic
 private:
     NetworkManager(const QUrl& cUrl, QObject* parent = nullptr);
 
-public: //methods
+private slots:
+    void OnReplyReceived(QNetworkReply*);
 
-private:
+public: //methods
+    void SetUrl(const QUrl& cUrl);
+
+    void Get();
+    void Get(const QUrl& cUrl);
+
+signals:
+    void GotData();
+
+private: //fields
 
     static NetworkManager* pInstance; //Singleton
+
+    QUrl m_url;
+    QNetworkAccessManager* m_pNetworkAccessManager = nullptr;
 
 };
 
