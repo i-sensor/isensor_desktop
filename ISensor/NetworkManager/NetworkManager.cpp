@@ -4,17 +4,16 @@
 
 NetworkManager* NetworkManager::pInstance = nullptr;
 
-NetworkManager::NetworkManager(const QUrl& cUrl, QObject* parent)
-    : m_url{cUrl}, QObject(parent)
+NetworkManager::NetworkManager()
 {
     m_pNetworkAccessManager = new QNetworkAccessManager(this);
 }
 
-NetworkManager* NetworkManager::GetInstance(const QUrl& cUrl, QObject* parent)
+NetworkManager* NetworkManager::GetInstance()
 {
     if(pInstance == nullptr)
     {
-        pInstance = new NetworkManager(cUrl, parent);
+        pInstance = new NetworkManager();
     }
 
     return pInstance;
@@ -45,11 +44,13 @@ void NetworkManager::Get(const QUrl& cUrl)
     connect(m_pNetworkAccessManager, &QNetworkAccessManager::finished, this, &NetworkManager::OnReplyReceived);
 }
 
-void OnReplyReceived(QNetworkReply* pReply)
+void NetworkManager::OnReplyReceived(QNetworkReply* pReply)
 {
     QFile file("data.json");
     file.open(QIODevice::WriteOnly);
     file.write(pReply->readAll());
+
+    emit GotData();
 }
 
 

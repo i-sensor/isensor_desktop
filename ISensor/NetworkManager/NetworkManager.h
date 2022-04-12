@@ -21,12 +21,12 @@ public: //Sigleton logic
     /*
      * GetInstance - returns pointer to single object of SettingManager
      */
-    static NetworkManager *GetInstance(const QUrl& cUrl, QObject* parent = nullptr);
+    static NetworkManager *GetInstance();
 
     ~NetworkManager();
 
 private:
-    NetworkManager(const QUrl& cUrl, QObject* parent = nullptr);
+    NetworkManager();
 
 private slots:
     void OnReplyReceived(QNetworkReply*);
