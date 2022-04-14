@@ -40,7 +40,7 @@ int Logger::log(const LOG_LEVEL& ceLogLevel, const char* cszLogMessage, ...)
 
         //prepare all parts for log message
         QString sDateTime = getDateTime();
-        QString sLogLevel = convertLogLevelToString();
+        QString sLogLevel = convertLogLevelToString(ceLogLevel);
 
         //main message
         va_list args;
@@ -65,10 +65,10 @@ QString Logger::getDateTime()
     return QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss.zzz");
 }
 
-QString Logger::convertLogLevelToString()
+QString Logger::convertLogLevelToString(const LOG_LEVEL eLevel)
 {
     QString sLogLevel = "UNKNOWN";
-    switch(m_eLogLevel)
+    switch(eLevel)
     {
     case LOG_LEVEL::FATAL:
         sLogLevel = "FATAL";
