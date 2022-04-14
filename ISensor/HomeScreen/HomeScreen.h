@@ -6,19 +6,26 @@
 #include <QPushButton>
 
 //Logic
+#include "GlobalThings/GlobalThings.h"
+
 #include "NetworkManager/NetworkManager.h"
-#include "SettingManager/SettingManager.h"
 #include "Logger/Logger.h"
 
 class HomeScreen : public QWidget
 {
 public:
+    HomeScreen();
+    ~HomeScreen();
 
+private slots:
+    void GetData();
+    void SetData();
+
+    void SetDardTheme();
+    void SetLightTheme();
 
 private:
     QPushButton* m_pUpdataDataBtn;
-
-    NetworkManager* m_pNetworkManager;
 };
 
 #endif //HOME_SCREEN
