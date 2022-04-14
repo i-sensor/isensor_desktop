@@ -61,6 +61,7 @@ void NetworkManager::OnReplyReceived(QNetworkReply* pReply)
     QFile file(csResFileName);
     file.open(QIODevice::WriteOnly);
     file.write(pReply->readAll());
+    file.close();
 
     emit GotData();
 }
