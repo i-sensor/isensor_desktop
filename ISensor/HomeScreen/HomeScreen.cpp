@@ -1,24 +1,33 @@
+//user .h files
 #include "HomeScreen/HomeScreen.h"
+#include "Logger/Logger.h"
+#include "GlobalThings/GlobalThings.h"
 
-#include <QFile>
-
-#include <QVBoxLayout>
+//layouts
 #include <QGridLayout>
 #include <QBoxLayout>
 
-#include <QLineSeries>
+//json
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonParseError>
+
+//charts
+#include <QLineSeries>
 #include <QChart>
 #include <QCategoryAxis>
-#include <QDateTime>
 
-#include "GlobalThings/GlobalThings.h"
+//other
+#include <QDateTime>
+#include <QFile>
+
+static Logger* g_pLogger = Logger::getLogger(SettingManager::GetInstance(g_cszSettingsFile)->ReadValue(g_cszLoggerSection, g_cszLogFileKey).second.toString(), "", "HomeScreen", LOG_LEVEL::INFO);
 
 HomeScreen::HomeScreen()
 {
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of HomeScreen()");
+
     m_pUpdataDataBtn = new QPushButton("Update", this);
 
     m_pTemperatureChartView = new QChartView(this);
@@ -47,15 +56,21 @@ HomeScreen::HomeScreen()
     //connections
     connect(m_pUpdataDataBtn, &QPushButton::clicked, this, &HomeScreen::GetData);
     connect(NetworkManager::GetInstance(), &NetworkManager::GotData, this, &HomeScreen::SetData);
+
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of HomeScreen()");
 }
 
 HomeScreen::~HomeScreen()
 {
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of ~HomeScreen()");
 
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of ~HomeScreen()");
 }
 
 void HomeScreen::GetData()
 {
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of GetData()");
+
     auto res = SettingManager::GetInstance(g_cszSettingsFile)->ReadValue(g_cszNetworkManagerSection, g_cszUrlKey);
 
     if(res.first != SettingManager::SUCCESS)
@@ -68,14 +83,26 @@ void HomeScreen::GetData()
 
     NetworkManager::GetInstance()->Get(url);
 
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of GetData()");
 }
 
 void HomeScreen::SetData()
 {
-    //setting the data to graphic
-    int i = 10;
-    i++;
-    QFile file("data.json");
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of SetData()");
+
+    //getting json file name from ini
+    auto res = SettingManager::GetInstance(g_cszSettingsFile)->ReadValue(g_cszNetworkManagerSection, g_cszDataFileKey);
+
+    if(res.first != SettingManager::SUCCESS)
+    {
+        g_pLogger->log(LOG_LEVEL::ERROR, "error while getting json file name from ini file. Error code: %d", res.first);
+        return;
+    }
+
+    const QString csResFileName = res.second.toString();
+
+    //Parsing json
+    QFile file(csResFileName);
     if(file.open(QIODevice::ReadOnly))
     {
         QByteArray data = file.readAll();
@@ -86,7 +113,8 @@ void HomeScreen::SetData()
 
         if( jsonError.error != QJsonParseError::NoError )
         {
-              // log erro jsonError.errorString().toStdString()
+              std::string sError = jsonError.errorString().toStdString();
+              g_pLogger->log(LOG_LEVEL::ERROR, "json error: %s", sError.c_str());
               return;
         }
 
@@ -210,14 +238,26 @@ void HomeScreen::SetData()
         m_pPressureChartView->setChart(pPressureChart);
         m_pUvChartView->setChart(pUvChart);
     }
+    else
+    {
+        g_pLogger->log(LOG_LEVEL::ERROR, "cannot open json file. Maybe it doesn't exist");
+        return;
+    }
+
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetData()");
+
 }
 
 void HomeScreen::SetDardTheme()
 {
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of SetDardTheme()");
 
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetDardTheme()");
 }
 
 void HomeScreen::SetLightTheme()
 {
+    g_pLogger->log(LOG_LEVEL::DEBUG, "start of SetLightTheme()");
 
+    g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetLightTheme()");
 }

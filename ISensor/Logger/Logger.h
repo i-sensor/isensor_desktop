@@ -59,7 +59,7 @@ private: //methods
     /*
      * convertLogLevelToString - converts log level of the logger into string
      */
-    QString convertLogLevelToString();
+    QString convertLogLevelToString(const LOG_LEVEL eLevel);
 
 private: //fields
     std::fstream m_file;
