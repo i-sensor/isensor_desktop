@@ -1,4 +1,6 @@
 #include "NetworkManager/NetworkManager.h"
+#include "GlobalThings/GlobalThings.h"
+#include "SettingManager/SettingManager.h"
 
 #include <QFile>
 
@@ -46,7 +48,17 @@ void NetworkManager::Get(const QUrl& cUrl)
 
 void NetworkManager::OnReplyReceived(QNetworkReply* pReply)
 {
-    QFile file("data.json");
+    auto res = SettingManager::GetInstance(g_cszSettingsFile)->ReadValue(g_cszNetworkManagerSection, g_cszDataFileKey);
+
+    if(res.first != SettingManager::SUCCESS)
+    {
+        //log error
+        return;
+    }
+
+    const QString csResFileName = res.second.toString();
+
+    QFile file(csResFileName);
     file.open(QIODevice::WriteOnly);
     file.write(pReply->readAll());
 
