@@ -44,22 +44,22 @@ HomeScreen::HomeScreen()
     font.setPixelSize(18);
 
     pTemChart->setTitleFont(font);
-    pTemChart->setTitleBrush(QBrush(Qt::black));
+    pTemChart->setTitleBrush(QBrush(QRgb(0xff8aae)));
     pTemChart->setTitle("Temperature");
     pTemChart->createDefaultAxes();
 
     pHumChart->setTitleFont(font);
-    pHumChart->setTitleBrush(QBrush(Qt::black));
+    pHumChart->setTitleBrush(QBrush(QRgb(0x33c1ff)));
     pHumChart->setTitle("Humidity");
     pHumChart->createDefaultAxes();
 
     pPreChart->setTitleFont(font);
-    pPreChart->setTitleBrush(QBrush(Qt::black));
+    pPreChart->setTitleBrush(QBrush(QRgb(0x33ff77)));
     pPreChart->setTitle("Pressure");
     pPreChart->createDefaultAxes();
 
     pUvChart->setTitleFont(font);
-    pUvChart->setTitleBrush(QBrush(Qt::black));
+    pUvChart->setTitleBrush(QBrush(QRgb(0xff3333)));
     pUvChart->setTitle("Uv");
     pUvChart->createDefaultAxes();
 
@@ -92,6 +92,7 @@ HomeScreen::HomeScreen()
 
     //defaultTheme
     SetLightTheme();
+    m_iCurrentTheme = 0;
 
     g_pLogger->log(LOG_LEVEL::DEBUG, "end of HomeScreen()");
 }
@@ -221,24 +222,40 @@ void HomeScreen::SetData()
         pUvChart->addSeries(pUvSeries);
         pUvChart->createDefaultAxes();
 
+        //set theme for charts
+        if(m_iCurrentTheme == 0) //light
+        {
+            pTemperatureChart->setTheme(QChart::ChartThemeLight);
+            pHumidityChart->setTheme(QChart::ChartThemeLight);
+            pPressureChart->setTheme(QChart::ChartThemeLight);
+            pUvChart->setTheme(QChart::ChartThemeLight);
+        }
+        else if(m_iCurrentTheme == 1) //dark
+        {
+            pTemperatureChart->setTheme(QChart::ChartThemeDark);
+            pHumidityChart->setTheme(QChart::ChartThemeDark);
+            pPressureChart->setTheme(QChart::ChartThemeDark);
+            pUvChart->setTheme(QChart::ChartThemeDark);
+        }
+
         // Customize the title font
         QFont font;
         font.setPixelSize(18);
 
         pTemperatureChart->setTitleFont(font);
-        pTemperatureChart->setTitleBrush(QBrush(Qt::black));
+        pTemperatureChart->setTitleBrush(QBrush(QRgb(0xff8aae)));
         pTemperatureChart->setTitle("Temperature");
 
         pHumidityChart->setTitleFont(font);
-        pHumidityChart->setTitleBrush(QBrush(Qt::black));
+        pHumidityChart->setTitleBrush(QBrush(QRgb(0x33c1ff)));
         pHumidityChart->setTitle("Humidity");
 
         pPressureChart->setTitleFont(font);
-        pPressureChart->setTitleBrush(QBrush(Qt::black));
+        pPressureChart->setTitleBrush(QBrush(QRgb(0x33ff77)));
         pPressureChart->setTitle("Pressure");
 
         pUvChart->setTitleFont(font);
-        pUvChart->setTitleBrush(QBrush(Qt::black));
+        pUvChart->setTitleBrush(QBrush(QRgb(0xff3333)));
         pUvChart->setTitle("Uv");
 
         // Change the line color and weight
@@ -304,6 +321,7 @@ void HomeScreen::SetDarkTheme()
         m_pPressureChartView->chart()->setTheme(QChart::ChartThemeDark);
         m_pUvChartView->chart()->setTheme(QChart::ChartThemeDark);
 
+        m_iCurrentTheme = 1;
         g_pLogger->log(LOG_LEVEL::INFO, "dark theme was set");
     }
 
@@ -329,6 +347,8 @@ void HomeScreen::SetLightTheme()
         m_pHumidityChartView->chart()->setTheme(QChart::ChartThemeLight);
         m_pPressureChartView->chart()->setTheme(QChart::ChartThemeLight);
         m_pUvChartView->chart()->setTheme(QChart::ChartThemeLight);
+
+        m_iCurrentTheme = 0;
 
         g_pLogger->log(LOG_LEVEL::INFO, "light theme was set");
     }

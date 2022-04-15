@@ -36,6 +36,8 @@ private:
     QChartView* m_pUvChartView;
 
     QPushButton* m_pUpdataDataBtn;
+
+    int m_iCurrentTheme; //0 - light, 1-dark
 };
 
 #endif //HOME_SCREEN
