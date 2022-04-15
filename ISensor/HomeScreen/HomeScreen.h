@@ -16,9 +16,11 @@ QT_CHARTS_USE_NAMESPACE // for charts
 
 class HomeScreen : public QWidget
 {
+    Q_OBJECT
+
 public:
     HomeScreen();
-    ~HomeScreen();
+    virtual ~HomeScreen();
 
 private slots:
     void GetData();
