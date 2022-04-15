@@ -35,6 +35,39 @@ HomeScreen::HomeScreen()
     m_pPressureChartView = new QChartView(this);
     m_pUvChartView = new QChartView(this);
 
+    QChart* pTemChart = new QChart();
+    QChart* pHumChart = new QChart();
+    QChart* pPreChart = new QChart();
+    QChart* pUvChart = new QChart();
+
+    QFont font;
+    font.setPixelSize(18);
+
+    pTemChart->setTitleFont(font);
+    pTemChart->setTitleBrush(QBrush(Qt::black));
+    pTemChart->setTitle("Temperature");
+    pTemChart->createDefaultAxes();
+
+    pHumChart->setTitleFont(font);
+    pHumChart->setTitleBrush(QBrush(Qt::black));
+    pHumChart->setTitle("Humidity");
+    pHumChart->createDefaultAxes();
+
+    pPreChart->setTitleFont(font);
+    pPreChart->setTitleBrush(QBrush(Qt::black));
+    pPreChart->setTitle("Pressure");
+    pPreChart->createDefaultAxes();
+
+    pUvChart->setTitleFont(font);
+    pUvChart->setTitleBrush(QBrush(Qt::black));
+    pUvChart->setTitle("Uv");
+    pUvChart->createDefaultAxes();
+
+    m_pTemperatureChartView->setChart(pTemChart);
+    m_pHumidityChartView->setChart(pHumChart);
+    m_pPressureChartView->setChart(pPreChart);
+    m_pUvChartView->setChart(pUvChart);
+
     //Layout
     QGridLayout* layout = new QGridLayout(this);
     layout->addWidget(m_pTemperatureChartView, 0, 0);
@@ -251,9 +284,28 @@ void HomeScreen::SetData()
 
 }
 
-void HomeScreen::SetDardTheme()
+void HomeScreen::SetDarkTheme()
 {
     g_pLogger->log(LOG_LEVEL::DEBUG, "start of SetDardTheme()");
+
+    QFile lightThemeFile(":/HomeScreenDark.css");
+    if(!lightThemeFile.open(QIODevice::ReadOnly))
+    {
+        g_pLogger->log(LOG_LEVEL::ERROR, "can't open .css file for setting dark theme");
+    }
+    else
+    {
+        setStyleSheet(lightThemeFile.readAll());
+
+        lightThemeFile.close();
+
+        m_pTemperatureChartView->chart()->setTheme(QChart::ChartThemeDark);
+        m_pHumidityChartView->chart()->setTheme(QChart::ChartThemeDark);
+        m_pPressureChartView->chart()->setTheme(QChart::ChartThemeDark);
+        m_pUvChartView->chart()->setTheme(QChart::ChartThemeDark);
+
+        g_pLogger->log(LOG_LEVEL::INFO, "dark theme was set");
+    }
 
     g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetDardTheme()");
 }
@@ -271,9 +323,14 @@ void HomeScreen::SetLightTheme()
     {
         setStyleSheet(lightThemeFile.readAll());
 
-        g_pLogger->log(LOG_LEVEL::INFO, "light theme was set");
-
         lightThemeFile.close();
+
+        m_pTemperatureChartView->chart()->setTheme(QChart::ChartThemeLight);
+        m_pHumidityChartView->chart()->setTheme(QChart::ChartThemeLight);
+        m_pPressureChartView->chart()->setTheme(QChart::ChartThemeLight);
+        m_pUvChartView->chart()->setTheme(QChart::ChartThemeLight);
+
+        g_pLogger->log(LOG_LEVEL::INFO, "light theme was set");
     }
 
     g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetLightTheme()");

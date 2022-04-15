@@ -26,7 +26,7 @@ private slots:
     void GetData();
     void SetData();
 
-    void SetDardTheme();
+    void SetDarkTheme();
     void SetLightTheme();
 
 private:
