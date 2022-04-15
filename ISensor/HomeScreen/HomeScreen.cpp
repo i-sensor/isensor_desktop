@@ -57,6 +57,9 @@ HomeScreen::HomeScreen()
     connect(m_pUpdataDataBtn, &QPushButton::clicked, this, &HomeScreen::GetData);
     connect(NetworkManager::GetInstance(), &NetworkManager::GotData, this, &HomeScreen::SetData);
 
+    //defaultTheme
+    SetLightTheme();
+
     g_pLogger->log(LOG_LEVEL::DEBUG, "end of HomeScreen()");
 }
 
@@ -258,6 +261,20 @@ void HomeScreen::SetDardTheme()
 void HomeScreen::SetLightTheme()
 {
     g_pLogger->log(LOG_LEVEL::DEBUG, "start of SetLightTheme()");
+
+    QFile lightThemeFile(":/HomeScreenLight.css");
+    if(!lightThemeFile.open(QIODevice::ReadOnly))
+    {
+        g_pLogger->log(LOG_LEVEL::ERROR, "can't open .css file for setting ligth theme");
+    }
+    else
+    {
+        setStyleSheet(lightThemeFile.readAll());
+
+        g_pLogger->log(LOG_LEVEL::INFO, "light theme was set");
+
+        lightThemeFile.close();
+    }
 
     g_pLogger->log(LOG_LEVEL::DEBUG, "end of SetLightTheme()");
 }
