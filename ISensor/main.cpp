@@ -1,15 +1,15 @@
 #include "isensor.h"
 #include <QApplication>
 
-#include "HomeScreen/HomeScreen.h"
+#include "Header/Header.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     //ISensor w;
     //w.show();
-    HomeScreen s;
-    s.show();
+    Header w;
+    w.show();
 
     return a.exec();
 }

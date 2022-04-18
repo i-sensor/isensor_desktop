@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Header/Header.cpp \
     HomeScreen/HomeScreen.cpp \
     NetworkManager/NetworkManager.cpp \
     SettingManager/SettingManager.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     GlobalThings/GlobalThings.h \
+    Header/Header.h \
     HomeScreen/HomeScreen.h \
     NetworkManager/NetworkManager.h \
     SettingManager/SettingManager.h \
