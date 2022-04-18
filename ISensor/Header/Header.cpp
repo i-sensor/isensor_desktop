@@ -7,42 +7,58 @@
 
 Header::Header()
 {
+    //UI
+    m_pMenuBar = new QMenuBar(this);
+    QMenu* pHome = new QMenu("Home", m_pMenuBar);
+    QMenu* pInformation = new QMenu("Information", m_pMenuBar );
+    m_pMenuBar->addMenu(pHome);
+    m_pMenuBar->addMenu(pInformation);
 
+    m_pButton = new QPushButton("push", this);
+    m_pLabel = new QLabel("isensor",this);
 
-  m_MenuBar = new QMenuBar(this);
+    //Layout
+    QBoxLayout* playout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    playout->addWidget(m_pMenuBar);
+    playout->addStretch(1);
+    playout->addWidget(m_pLabel);
+    playout->addStretch(1);
+    playout->addWidget(m_pButton);
+    setLayout(playout);
 
-  QMenu* pHome = new QMenu("Home", m_MenuBar);
-  QMenu* pInformation = new QMenu("Information", m_MenuBar );
+    connect(pHome, &QMenu::triggered, this, &Header::setHomeScreen);
+    connect(pInformation, &QMenu::triggered, this, &Header::setInformationScreen);
+    connect(m_pButton, &QPushButton::clicked, this, &Header::emitSignalForChangeTheme);
+}
 
+void Header::emitSignalForChangeTheme()
+{
+    if (m_eCurrentTheme == THEME::LIGHT)
+    {
+        emit setDarkThemeSignal();
+    }
+    else if (m_eCurrentTheme == THEME::DARK)
+    {
+        emit setLightThemeSignal();
+    }
+}
 
-  m_pButton = new QPushButton("push", this);
-//m_pButton->move(400, 10);
+void Header::setLightTheme()
+{
+    if(m_eCurrentTheme != THEME::LIGHT)
+    {
+        //read style sheets from file
+        m_eCurrentTheme = THEME::LIGHT;
+    }
+}
 
-  QLabel* m_Label = new QLabel("isensor",this);
-  //m_Label->move(220, 5);
-
-
-
- m_MenuBar->addMenu(pHome);
-  m_MenuBar->addMenu(pInformation);
-
-
-  QBoxLayout * layout = new QBoxLayout(QBoxLayout::LeftToRight);
-layout->addWidget(m_MenuBar);
-layout->addStretch(1);
-layout->addWidget(m_Label);
-layout->addStretch(2);
-layout->addWidget(m_pButton);
-
-
-
-setLayout(layout);
-
-
-
-  connect(pHome, &QMenu::triggered, this, &Header::setHomeScreen);
-  connect(pInformation, &QMenu::triggered, this, &Header::setInformationScreen);
-  connect(m_pButton, &QPushButton::clicked, this, &Header::emitChangeTheme);
+void Header::setDarkTheme()
+{
+    if(m_eCurrentTheme != THEME::DARK)
+    {
+        //read style sheets from file
+        m_eCurrentTheme = THEME::DARK;
+    }
 }
 
 Header::~Header()

@@ -1,67 +1,46 @@
 #ifndef HEADER_H
 #define HEADER_H
+
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QPushButton>
 
-#include <QtWidgets>
-enum THEME{
-   LIGHT,
+enum THEME
+{
+    LIGHT,
     DARK
 };
 
-
-
-
-class Header: public QWidget
-
+class Header : public QWidget
 {
     Q_OBJECT
 
 public:
     Header();
-  virtual ~Header();
+    virtual ~Header();
 
-private:
-    QMenuBar *m_MenuBar;
-    QLabel *m_Label;
-
-
-
-
-
-public:
-    THEME m_eCurrentTheme = THEME::LIGHT;
-        QPushButton* m_pButton;
-
+private: //methods
 
 public slots:
-  void setLightTheme()
-  {
-
-  }
-  void setDarkTheme()
-  {
-
-  }
-
+    void setLightTheme();
+    void setDarkTheme();
 
 private slots:
-  void emitChangeTheme()
-   {
-     if (m_eCurrentTheme ==THEME::LIGHT){
+    void emitSignalForChangeTheme();
 
-       m_eCurrentTheme = DARK;
-     }
-     else if (m_eCurrentTheme == THEME:: DARK){
+signals:
+    void setHomeScreen();
+    void setInformationScreen();
+    void setLightThemeSignal();
+    void setDarkThemeSignal();
 
-       m_eCurrentTheme = LIGHT;
-   }
-}
- signals:
-        void setHomeScreen();
-      void setInformationScreen();
+private:
+    QMenuBar* m_pMenuBar;
+    QLabel* m_pLabel;
+    QPushButton* m_pButton;
+
+    THEME m_eCurrentTheme = THEME::LIGHT;
 };
 
 #endif // HEADER_H
