@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>HomeScreenLight.css</file>
+        <file>HomeScreenDark.css</file>
+    </qresource>
+</RCC>

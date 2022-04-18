@@ -16,15 +16,17 @@ QT_CHARTS_USE_NAMESPACE // for charts
 
 class HomeScreen : public QWidget
 {
+    Q_OBJECT
+
 public:
     HomeScreen();
-    ~HomeScreen();
+    virtual ~HomeScreen();
 
 private slots:
     void GetData();
     void SetData();
 
-    void SetDardTheme();
+    void SetDarkTheme();
     void SetLightTheme();
 
 private:
@@ -34,6 +36,8 @@ private:
     QChartView* m_pUvChartView;
 
     QPushButton* m_pUpdataDataBtn;
+
+    int m_iCurrentTheme; //0 - light, 1-dark
 };
 
 #endif //HOME_SCREEN

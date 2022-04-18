@@ -31,3 +31,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     ISensorSettings.ini
+
+RESOURCES += \
+    Resources/resources.qrc
